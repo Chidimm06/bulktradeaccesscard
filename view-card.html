@@ -16,7 +16,6 @@
             overflow-x: hidden; justify-content: center;
         }
 
-        /* NEW BACKGROUND */
         .page-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-image: url('card-view-bg.jpg'); 
@@ -24,20 +23,18 @@
             z-index: -1; filter: brightness(0.4);
         }
 
-        /* System Logs (Makes it look "Fuller") */
         .system-logs {
             position: absolute; top: 20px; left: 20px; font-family: 'Share Tech Mono';
             font-size: 10px; color: var(--primary-gold); opacity: 0.6; pointer-events: none;
         }
 
-        .header-area { text-align: center; margin-bottom: 30px; animation: fadeIn 1s ease; }
+        .header-area { text-align: center; margin-bottom: 20px; animation: fadeIn 1s ease; }
         .status-tag { 
             background: rgba(0, 255, 100, 0.1); border: 1px solid #00ff64;
             color: #00ff64; padding: 5px 15px; border-radius: 20px;
             font-size: 10px; font-weight: bold; letter-spacing: 2px;
         }
 
-        /* CARD STYLING */
         .card-perspective { perspective: 1200px; width: 100%; display: flex; justify-content: center; padding: 20px 0; }
         .card-wrapper {
             position: relative; width: 600px; height: 377px; border-radius: 18px;
@@ -45,18 +42,17 @@
             background-color: #000; transform-style: preserve-3d; transition: transform 0.1s ease-out;
         }
 
-        /* Mobile Scaling */
         @media (max-width: 650px) { .card-wrapper { transform: scale(0.8); } }
-        @media (max-width: 500px) { .card-wrapper { transform: scale(0.55); } }
+        @media (max-width: 500px) { .card-wrapper { transform: scale(0.55); margin: -40px 0; } }
 
-        .card-bg { width: 100%; height: 100%; object-fit: cover; position: absolute; z-index: 1; }
+        .card-bg { width: 100%; height: 100%; object-fit: cover; position: absolute; z-index: 1; pointer-events: none;}
         .card-content {
             position: absolute; z-index: 2; top: 110px; left: 0;
             width: 100%; height: calc(100% - 110px); display: flex; padding: 10px 45px; box-sizing: border-box;
         }
 
         .photo-area { width: 140px; }
-        .avatar-frame { width: 130px; height: 155px; border: 1px solid rgba(197, 160, 89, 0.4); overflow: hidden; }
+        .avatar-frame { width: 130px; height: 155px; border: 1px solid rgba(197, 160, 89, 0.4); overflow: hidden; background: #111; }
         .avatar-frame img { width: 100%; height: 100%; object-fit: cover; }
         .details-area { flex: 1; padding-left: 25px; color: var(--primary-gold); font-family: 'Cinzel', serif; }
         .row { display: flex; gap: 20px; margin-bottom: 12px; }
@@ -67,14 +63,13 @@
         .cursive-sig { font-family: 'Great Vibes', cursive; font-size: 32px; color: var(--primary-gold); margin-bottom: 5px; }
         #qrcode { padding: 4px; background: white; width: 50px; height: 50px; border-radius: 4px; }
 
-        /* BUTTONS */
-        .action-bar { display: flex; gap: 15px; margin-top: 40px; }
+        .action-bar { display: flex; gap: 15px; margin-top: 20px; z-index: 100; }
         .btn {
-            padding: 15px 30px; border: 1px solid var(--primary-gold); border-radius: 4px;
+            padding: 15px 25px; border: 1px solid var(--primary-gold); border-radius: 4px;
             font-family: 'Cinzel'; background: transparent; color: var(--primary-gold);
-            cursor: pointer; transition: 0.3s; font-weight: bold; text-transform: uppercase;
+            cursor: pointer; transition: 0.3s; font-weight: bold; text-transform: uppercase; font-size: 12px;
         }
-        .btn:hover { background: var(--primary-gold); color: black; }
+        .btn:hover { background: var(--primary-gold); color: black; box-shadow: 0 0 15px var(--primary-gold); }
         .btn-back { border-color: #555; color: #aaa; }
 
         .card-scanner {
@@ -82,12 +77,21 @@
             background: var(--primary-gold); box-shadow: 0 0 15px var(--primary-gold);
             animation: scanMove 3s infinite linear; z-index: 10; opacity: 0.4;
         }
+
+        /* Toast Notification */
+        #toast {
+            position: fixed; bottom: 20px; background: var(--primary-gold); color: black;
+            padding: 10px 20px; border-radius: 5px; font-family: 'Share Tech Mono';
+            font-weight: bold; display: none; animation: fadeIn 0.3s; z-index: 1000;
+        }
+
         @keyframes scanMove { 0% { top: 0; } 100% { top: 100%; } }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
+    <div id="toast">SYSTEM: FILE DOWNLOADED</div>
     <div class="page-bg"></div>
     
     <div class="system-logs">
@@ -99,7 +103,7 @@
 
     <div class="header-area">
         <span class="status-tag">ACCESS GRANTED</span>
-        <h1 style="font-family: 'Cinzel'; color: var(--primary-gold); margin-top: 15px;">IDENTITY VERIFIED</h1>
+        <h1 style="font-family: 'Cinzel'; color: var(--primary-gold); margin-top: 10px; font-size: 1.2rem; letter-spacing: 2px;">IDENTITY VERIFIED</h1>
     </div>
 
     <div class="card-perspective">
@@ -132,8 +136,8 @@
     </div>
 
     <div class="action-bar">
-        <button class="btn btn-back" onclick="location.href='index.html'">Back</button>
-        <button class="btn" onclick="downloadCard()">Export PNG</button>
+        <button class="btn btn-back" onclick="location.href='index.html'">New</button>
+        <button class="btn" onclick="downloadCard()">Export</button>
         <button class="btn" onclick="shareToX()">Broadcast</button>
     </div>
 
@@ -141,7 +145,6 @@
         const data = JSON.parse(localStorage.getItem('bt_card_data'));
         if(!data) window.location.href = 'index.html';
 
-        // Populate Card
         document.getElementById('cardName').innerText = "@" + data.handle.toUpperCase();
         document.getElementById('cardNat').innerText = data.nat.toUpperCase();
         document.getElementById('cardLocation').innerText = data.loc.toUpperCase();
@@ -151,38 +154,73 @@
         document.getElementById('cardNum').innerText = data.serial;
         document.getElementById('cardSig').innerText = data.handle;
         
-        let qrcode = new QRCode(document.getElementById("qrcode"), { text: `https://x.com/${data.handle}`, width: 50, height: 50, colorDark : "#c5a059" });
+        let qrcode = new QRCode(document.getElementById("qrcode"), { 
+            text: `https://x.com/${data.handle}`, 
+            width: 50, height: 50, 
+            colorDark : "#c5a059",
+            colorLight: "#ffffff"
+        });
         
         const avatar = document.getElementById('cardAvatar');
         avatar.crossOrigin = "anonymous";
         avatar.src = `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(`https://unavatar.io/x/${data.handle}`)}`;
 
-        // Tilt Effects
         const card = document.getElementById('idCard');
         document.addEventListener('mousemove', (e) => {
-            const x = (window.innerWidth / 2 - e.pageX) / 20;
-            const y = (window.innerHeight / 2 - e.pageY) / 20;
+            const x = (window.innerWidth / 2 - e.pageX) / 25;
+            const y = (window.innerHeight / 2 - e.pageY) / 25;
             card.style.transform = `rotateY(${-x}deg) rotateX(${y}deg)`;
         });
 
         if (window.DeviceOrientationEvent) {
             window.addEventListener('deviceorientation', (e) => {
-                card.style.transform = `rotateY(${e.gamma / 2}deg) rotateX(${(e.beta - 45) / 2}deg)`;
+                if(e.gamma) card.style.transform = `rotateY(${e.gamma / 2}deg) rotateX(${(e.beta - 45) / 2}deg)`;
             });
         }
 
-        function downloadCard() {
-            html2canvas(card, { useCORS: true, scale: 3 }).then(canvas => {
-                const link = document.createElement('a');
-                link.download = 'BT_Access_Card.png';
-                link.href = canvas.toDataURL('image/png');
-                link.click();
-            });
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.innerText = msg; t.style.display = 'block';
+            setTimeout(() => { t.style.display = 'none'; }, 3000);
         }
 
-        function shareToX() {
-            const tweetText = `Identity verified. Access Granted. #Bulktrader`;
-            window.open(`https://x.com/intent/tweet?text=${encodeURIComponent(tweetText)}`, '_blank');
+        async function downloadCard() {
+            const canvas = await html2canvas(card, { useCORS: true, scale: 3, backgroundColor: null });
+            const link = document.createElement('a');
+            link.download = `BT_Access_${data.handle}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            showToast("SYSTEM: CARD EXPORTED");
+        }
+
+        async function shareToX() {
+            const canvas = await html2canvas(card, { useCORS: true, scale: 2 });
+            const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+            const file = new File([blob], 'Bulktrader_Access_Card.png', { type: 'image/png' });
+
+            const shareUrl = 'https://chidimm06.github.io/bulktradeaccesscard/';
+            const tweetText = `My Bulktrader Access Card is finally here! 🚀 Proud to be part of the community. \n\nCreate yours here: ${shareUrl} \n\n#Bulktrader #BTC #Crypto`;
+
+            // MOBILE/NATIVE SHARE (This shows image in X post)
+            if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                try {
+                    await navigator.share({
+                        files: [file],
+                        title: 'Bulktrader Access Card',
+                        text: tweetText
+                    });
+                } catch (err) {
+                    // Fallback to link if cancelled
+                    window.open(`https://x.com/intent/tweet?text=${encodeURIComponent(tweetText)}`, '_blank');
+                }
+            } else {
+                // DESKTOP FALLBACK (Requires user to attach downloaded image)
+                downloadCard();
+                setTimeout(() => {
+                    alert("Card downloaded! Attach it to your tweet to show it off.");
+                    window.open(`https://x.com/intent/tweet?text=${encodeURIComponent(tweetText)}`, '_blank');
+                }, 1000);
+            }
         }
     </script>
 </body>
